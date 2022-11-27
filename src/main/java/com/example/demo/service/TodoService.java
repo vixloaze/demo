@@ -36,6 +36,11 @@ public class TodoService { // todo 프로젝트 로직 구현 클래스
         return repository.findByUserId(entity.getUserId());
     }
 
+    public List<TodoEntity> retrieve(final String userId){
+        log.info("UserId: {} is find",userId);
+        return repository.findByUserId(userId);
+    }
+
     //검증 단계 = 엔티티가 유효한지 검사
     private void validate(final TodoEntity entity) {
         if(entity == null) {
