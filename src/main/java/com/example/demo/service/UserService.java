@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class UserService {
-
     @Autowired //필요한 의존 객체의 “타입"에 해당하는 빈을 찾아 주입한다.
     private UserRepository userRepository;
 
@@ -25,7 +24,6 @@ public class UserService {
 
         return userRepository.save(userEntity);
     }
-
     public UserEntity getByCredentials(final String username, final String password) {
         return userRepository.findByUsernameAndPassword(username,password);
     }
