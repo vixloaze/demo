@@ -35,7 +35,7 @@ public class TokenProvider {
         // JWT Token 생성
         return Jwts.builder()
                 // header에 들어갈 내용 및 서명을 하기 위한 SECRET_Key
-                .signWith(SignatureAlgorithm.ES512, SECRET_KEY)
+                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 // payload에 들어갈 내용
                 .setSubject(userEntity.getId()) //sub
                 .setIssuer("demo app") // iss
