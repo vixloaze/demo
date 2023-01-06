@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.security.JwtAuthenticationFilter;
+import com.example.demo.security.OAuthUserServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @Autowired
+    private OAuthUserServiceImpl oAuthUserService; // 우리가 만든 OAuthUserServiceImpl 추가
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -37,7 +41,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                             .and()
                                     .oauth2Login()
                 .redirectionEndpoint()
-                .baseUri("/oauth2/callback/*"); // callback uri 설정 // oauth2Login 설정
+                .baseUri("/oauth2/callback/*") // callback uri 설정 // oauth2Login 설정
+                .and()
+                        .userInfoEndpoint()
+                                .userService(oAuthUserService); // OAuthUserServiceImpl를 유저 서비스로 등록
 
         // filter 등록
         // 매 요청마다
