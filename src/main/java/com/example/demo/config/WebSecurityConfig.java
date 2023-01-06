@@ -31,9 +31,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests() // /와 /auth/** 경로는 인증 안 해도 됨
-                    .antMatchers("/", "/auth/**").permitAll()
+                    .antMatchers("/", "/auth/**","/oauth2/**").permitAll() // oauth2 엔드포인트 추가
                 .anyRequest() // /와 /auth/** 경로 이외의 모든 경로는 인증해야 함
-                    .authenticated();
+                    .authenticated()
+                            .and()
+                                    .oauth2Login()
+                .redirectionEndpoint()
+                .baseUri("/oauth2/callback/*"); // callback uri 설정 // oauth2Login 설정
 
         // filter 등록
         // 매 요청마다
