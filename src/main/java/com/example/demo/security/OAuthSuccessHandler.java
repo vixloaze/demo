@@ -20,7 +20,8 @@ public class OAuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException {
         TokenProvider tokenProvider = new TokenProvider();
         String token = tokenProvider.create(authentication);
-        response.getWriter().write(token);
+
         log.info("token {}", token);
+        response.sendRedirect("http://localhost:3000/sociallogin?token="+ token);
     }
 }
