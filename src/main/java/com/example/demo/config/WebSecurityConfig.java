@@ -3,18 +3,17 @@ package com.example.demo.config;
 import com.example.demo.security.JwtAuthenticationFilter;
 import com.example.demo.security.OAuthSuccessHandler;
 import com.example.demo.security.OAuthUserServiceImpl;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.web.filter.CorsFilter;
 
 @EnableWebSecurity
 @Slf4j
-@AllArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -50,7 +49,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .userInfoEndpoint()
                                 .userService(oAuthUserService) // OAuthUserServiceImpl를 유저 서비스로 등록
                 .and()
-                        .successHandler(oAuthSuccessHandler); // Success Handler 등록
+                        .successHandler(oAuthSuccessHandler) // Success Handler 등록
+                .and()
+                        .exceptionHandling()
+                                .authenticationEntryPoint(new Http403ForbiddenEntryPoint()); // Http403ForbiddenEntryPoint 추가
 
         // filter 등록
         // 매 요청마다
