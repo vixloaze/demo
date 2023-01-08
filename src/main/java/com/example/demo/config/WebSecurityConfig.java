@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.security.JwtAuthenticationFilter;
+import com.example.demo.security.OAuthSuccessHandler;
 import com.example.demo.security.OAuthUserServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private OAuthUserServiceImpl oAuthUserService; // 우리가 만든 OAuthUserServiceImpl 추가
+
+    @Autowired
+    private OAuthSuccessHandler oAuthSuccessHandler; // Success Handler 추가
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -44,7 +48,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .baseUri("/oauth2/callback/*") // callback uri 설정 // oauth2Login 설정
                 .and()
                         .userInfoEndpoint()
-                                .userService(oAuthUserService); // OAuthUserServiceImpl를 유저 서비스로 등록
+                                .userService(oAuthUserService) // OAuthUserServiceImpl를 유저 서비스로 등록
+                .and()
+                        .successHandler(oAuthSuccessHandler); // Success Handler 등록
 
         // filter 등록
         // 매 요청마다
