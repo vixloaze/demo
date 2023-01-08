@@ -46,6 +46,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .redirectionEndpoint()
                 .baseUri("/oauth2/callback/*") // callback uri 설정 // oauth2Login 설정
                 .and()
+                .authorizationEndpoint()
+                .baseUri("/auth/authorize") // OAuth 2.0 흐름 시작을 위한 엔드 포인트 추가
+                .and()
                         .userInfoEndpoint()
                                 .userService(oAuthUserService) // OAuthUserServiceImpl를 유저 서비스로 등록
                 .and()
